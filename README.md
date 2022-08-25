@@ -1,4 +1,4 @@
-<p align="center"><img src="cfilt-dark-vec.png" alt="Computation for Indian Language Technology Logo" width="150" height="150"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="aisurrey.svg" alt="Computation for Indian Language Technology Logo" width="250"/></p>
+<p align="center"><img src="cfilt-dark-vec.png" alt="Computation for Indian Language Technology Logo" width="150" height="150"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="aisurrey.svg" alt="Surrey Institute for People-Centred AI Logo" width="250"/></p>
 
 # HiNER - Hindi Named Entity Recognition Dataset
 
@@ -60,14 +60,17 @@ TBA
 
 ### BiBTeX Citation
 ```latex
-@misc{https://doi.org/10.48550/arxiv.2204.13743,
-  doi = {10.48550/ARXIV.2204.13743},
-  url = {https://arxiv.org/abs/2204.13743},
-  author = {Murthy, Rudra and Bhattacharjee, Pallab and Sharnagat, Rahul and Khatri, Jyotsana and Kanojia, Diptesh and Bhattacharyya, Pushpak},
-  keywords = {Computation and Language (cs.CL), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {HiNER: A Large Hindi Named Entity Recognition Dataset},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution 4.0 International}
+@InProceedings{murthy-EtAl:2022:LREC,
+  author    = {Murthy, Rudra  and  Bhattacharjee, Pallab  and  Sharnagat, Rahul  and  Khatri, Jyotsana  and  Kanojia, Diptesh  and  Bhattacharyya, Pushpak},
+  title     = {HiNER: A large Hindi Named Entity Recognition Dataset},
+  booktitle      = {Proceedings of the Language Resources and Evaluation Conference},
+  month          = {June},
+  year           = {2022},
+  address        = {Marseille, France},
+  publisher      = {European Language Resources Association},
+  pages     = {4467--4476},
+  abstract  = {Named Entity Recognition (NER) is a foundational NLP task that aims to provide class labels like Person, Location, Organisation, Time, and Number to words in free text. Named Entities can also be multi-word expressions where the additional I-O-B annotation information helps label them during the NER annotation process. While English and European languages have considerable annotated data for the NER task, Indian languages lack on that front- both in terms of quantity and following annotation standards. This paper releases a significantly sized standard-abiding Hindi NER dataset containing 109,146 sentences and 2,220,856 tokens, annotated with 11 tags. We discuss the dataset statistics in all their essential detail and provide an in-depth analysis of the NER tag-set used with our data. The statistics of tag-set in our dataset shows a healthy per-tag distribution especially for prominent classes like Person, Location and Organisation. Since the proof of resource-effectiveness is in building models with the resource and testing the model on benchmark data and against the leader-board entries in shared tasks, we do the same with the aforesaid data. We use different language models to perform the sequence labelling task for NER and show the efficacy of our data by performing a comparative evaluation with models trained on another dataset available for the Hindi NER task. Our dataset helps achieve a weighted F1 score of 88.78 with all the tags and 92.22 when we collapse the tag-set, as discussed in the paper. To the best of our knowledge, no available dataset meets the standards of volume (amount) and variability (diversity), as far as Hindi NER is concerned. We fill this gap through this work, which we hope will significantly help NLP for Hindi. We release this dataset with our code and models for further research at https://github.com/cfiltnlp/HiNER},
+  url       = {https://aclanthology.org/2022.lrec-1.475}
 }
+
 ```
