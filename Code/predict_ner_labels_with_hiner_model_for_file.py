@@ -14,36 +14,41 @@ def read_lines_from_file(file_path):
 
 def predict_labels_for_sentences(model, tokenizer, sentences, index_to_label_dict):
     """Predict labels using a model and write the predictions into a file."""
-    input_tensors = tokenizer(sentences, padding='max_length', max_length=128, truncation=True, return_tensors='pt')
-    outputs = model(**input_tensors)
-    logit_values = outputs.logits
     predicted_labels_for_all_sents = []
     with torch.no_grad():
-        softmax_layer = torch.nn.Softmax(dim=1)
-        output_predicted_probs_torch = softmax_layer(logit_values)
-        arg_max_torch = torch.argmax(output_predicted_probs_torch, axis=-1)
-        arg_max_torch = arg_max_torch.tolist()
-
-        for index, sentence in enumerate(sentences):
-            word_ids = input_tensors.word_ids(batch_index=index)
-            previous_word_idx = None
+        for index, sentence in enumerate(test_sentences):
+            # tokenized = tokenizer.tokenize(sentence)
+            input_tensors = tokenizer(sentence, truncation=True, return_tensors='pt')
+            #input_tensors = input_tensors.to(device)
+            # print(input_tensors["input_ids"].shape)
+            outputs = model(**input_tensors)
+            logit_values = outputs.logits
+            arg_max_torch = torch.argmax(logit_values, axis=-1)
+            #arg_max_torch = arg_max_torch.tolist()
+            predicted_tokens_classes = [model.config.id2label[t.item()] for t in arg_max_torch[0]]
+            word_ids = input_tensors.word_ids()
+            previous_word_idx = 0
             label_ids = []
-            
             for word_index in range(len(word_ids)):
                 # Special tokens have a word id that is None. We set the label to -100 so they are automatically
-                # ignored in the loss function.
-                if word_ids[word_index] is None:
-                    continue            
+                # ignored ine l thoss function.
+                if word_ids[word_index] == None:
+                    previous_word_idx = word_ids[word_index]
                 # We set the label for the first token of each word.
                 elif word_ids[word_index] != previous_word_idx:
-                    label_ids.append(index_to_label_dict[arg_max_torch[index][word_index]])
+                    # label_ids.append(id_to_label_dict[arg_max_torch[index][word_index]])
+                    label_ids.append(id_to_label_dict[predicted_tokens_classes[word_index]])
+                    previous_word_idx = word_ids[word_index]
                 # For the other tokens in a word, we ignore the label prediction
                 else:
-                    continue
-                previous_word_idx = word_ids[word_index]
-
-            tokens_with_preds = [ token + '\t' + pred_label for token, pred_label in zip( sentence.split(' '), label_ids ) ]
-
+                    previous_word_idx = word_ids[word_index]
+            # assert len(sentence.split()) == len(label_ids)
+            if len(label_ids) < len(sentence):
+                words_in_sentence = sentence
+                tokens_with_preds = [token + '\t' + pred_label for token, pred_label in zip(sentence, label_ids)]
+                tokens_with_preds += [token + '\tO' for token in words_in_sentence[len(label_ids):]]
+            else:
+                tokens_with_preds = [token + '\t' + pred_label for token, pred_label in zip(sentence, label_ids)]
             predicted_labels_for_all_sents.append('\n'.join(tokens_with_preds) + '\n')
     return predicted_labels_for_all_sents
 
